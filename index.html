@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محرر أكواد مباشر</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #222;
+        }
+        .container:last-child {
+            border-right: none;
+        }
+        .header {
+            background: #222;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        textarea {
+            flex-grow: 1;
+            width: 100%;
+            resize: none;
+            padding: 15px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        iframe {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+            background: #fff;
+        }
+        /* دعم الشاشات الصغيرة (الجوالات) */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .container {
+                width: 100%;
+                height: 50%;
+                border-right: none;
+                border-bottom: 2px solid #222;
+            }
+            .container:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- قسم كتابة الكود -->
+    <div class="container">
+        <div class="header">مساحة الكود (HTML / CSS / JS)</div>
+        <textarea id="codeInput" placeholder="<!-- اكتب أكوادك هنا لترى النتيجة مباشرة -->"></textarea>
+    </div>
+
+    <!-- قسم عرض النتيجة -->
+    <div class="container">
+        <div class="header" style="background: #0056b3;">النتيجة الحية</div>
+        <iframe id="outputFrame"></iframe>
+    </div>
+
+    <script>
+        const codeInput = document.getElementById('codeInput');
+        const outputFrame = document.getElementById('outputFrame');
+
+        // تحديث النتيجة بمجرد الكتابة
+        codeInput.addEventListener('input', function() {
+            const doc = outputFrame.contentDocument || outputFrame.contentWindow.document;
+            doc.open();
+            doc.write(codeInput.value);
+            doc.close();
+        });
+    </script>
+
+</body>
+</html>
